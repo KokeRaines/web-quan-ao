@@ -67,4 +67,11 @@ public class OrderService {
         order.setStatus(status.toUpperCase());
         orderRepository.save(order);
     }
+    public Double getTotalRevenue() {
+        return orderRepository.getTotalRevenue();
+    }
+
+    public List<Object[]> getRevenueData() {
+        return orderRepository.getRevenueByMonth();
+    }
 }

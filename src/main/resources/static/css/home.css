@@ -633,10 +633,23 @@ footer .row > div ul li a:hover {
     -webkit-box-orient: vertical;
 }
 
+.img-ad {
+	overflow: hidden;
+}
+
 .img-ad img {
 	transition: opacity 0.3s ease;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+	border-radius: 15px;
 }
 
 .img-ad:hover img {
 	opacity: 0.8;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+	border-radius: 15px;
+	scale: 1.02;
 }

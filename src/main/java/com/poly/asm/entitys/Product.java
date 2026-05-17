@@ -45,51 +45,51 @@ public class Product {
                 '}';
     }
     	
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
-	public List<ProductImage> getImages() {
-		return images;
-	}
-
-	public void setImages(List<ProductImage> images) {
-		this.images = images;
-	}
-
-	public List<ProductVariant> getVariants() {
-		return variants;
-	}
-
-	public void setVariants(List<ProductVariant> variants) {
-		this.variants = variants;
-	}
+//    public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
+//
+//	public String getName() {
+//		return name;
+//	}
+//
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//	public String getDescription() {
+//		return description;
+//	}
+//
+//	public void setDescription(String description) {
+//		this.description = description;
+//	}
+//
+//	public Category getCategory() {
+//		return category;
+//	}
+//
+//	public void setCategory(Category category) {
+//		this.category = category;
+//	}
+//	
+//	public List<ProductImage> getImages() {
+//		return images;
+//	}
+//
+//	public void setImages(List<ProductImage> images) {
+//		this.images = images;
+//	}
+//
+//	public List<ProductVariant> getVariants() {
+//		return variants;
+//	}
+//
+//	public void setVariants(List<ProductVariant> variants) {
+//		this.variants = variants;
+//	}
 }

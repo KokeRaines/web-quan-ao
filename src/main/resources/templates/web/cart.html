@@ -18,7 +18,8 @@
 </head>
 <body>
 	<!-- Header -->
-	<div th:replace="fragments/header :: siteHeader"></div>
+	<div th:replace="~{fragments/header :: siteHeader}"></div>
+	<!--<div th:replace="fragments/header :: siteHeader"></div>-->
 
 	<div class="cart-container pb-2 pt-2">
 		<div class="container">
@@ -124,7 +125,8 @@
 			const tudong_chatbox = new TuDongChat('rcAWY0gPAIyrID6TbMt_5')
 			tudong_chatbox.initial()
 		</script> -->
-		<div th:replace="fragments/footer :: siteFooter"></div>
+		<!--<div th:replace="fragments/footer :: siteFooter"></div>-->
+		<div th:replace="~{fragments/footer :: siteFooter}"></div>
 
 		<!-- Bootstrap JS -->
 		<script

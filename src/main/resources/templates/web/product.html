@@ -49,7 +49,7 @@
 					</ul>
 				</div>
 
-				<!-- Dropdown Lọc theo giá -->
+				<!-- Dropdown Lọc theo giá
 				<div class="dropdown">
 					<button class="btn btn-outline-secondary dropdown-toggle"
 						type="button" id="priceDropdownButton" data-bs-toggle="dropdown"
@@ -60,8 +60,22 @@
 						<li><a class="dropdown-item price-sort" href="#"
 							data-sort="desc">Cao đến thấp</a></li>
 					</ul>
+				</div> -->
+				
+				<!-- Dropdown Lọc theo giá -->
+				<div class="dropdown">
+				    <button class="btn btn-outline-secondary dropdown-toggle"
+				        type="button" id="priceDropdownButton" data-bs-toggle="dropdown"
+				        aria-expanded="false">Lọc theo giá</button>
+				    <ul class="dropdown-menu" aria-labelledby="priceDropdownButton">
+				        <!-- Thêm onclick và xóa class cũ -->
+				        <li><a class="dropdown-item" href="javascript:void(0)"
+				            onclick="sortPriceDirect('asc')">Thấp đến cao</a></li>
+				        <li><a class="dropdown-item" href="javascript:void(0)"
+				            onclick="sortPriceDirect('desc')">Cao đến thấp</a></li>
+				    </ul>
 				</div>
-
+				
 				<!-- Dropdown Size -->
 				<div class="dropdown">
 					<button class="btn btn-outline-dark dropdown-toggle" type="button"
@@ -125,7 +139,7 @@
                             </a>
                         </div>
                     </div>
-                </iv>
+                </div>
 				<div class="alert alert-info text-center"
 					th:if="${!productPage.hasContent()}">
 					<p>Không có sản phẩm nào khớp với bộ lọc hoặc trang hiện tại.</p>
@@ -160,11 +174,11 @@
 
 	<!-- Back to Top Button -->
 	<button id="backToTop" title="Lên đầu trang">↑</button>
-	<!-- <script src="https://app.tudongchat.com/js/chatbox.js"></script>
+	<script src="https://app.tudongchat.com/js/chatbox.js"></script>
 	<script>
-		const tudong_chatbox = new TuDongChat('rcAWY0gPAIyrID6TbMt_5')
-		tudong_chatbox.initial()
-	</script> -->
+	  const tudong_chatbox = new TuDongChat('9NG_mWCKqBxrxhFGcw453')
+	  tudong_chatbox.initial()
+	</script>
 
 	<div th:replace="~{fragments/footer :: siteFooter}"></div>
 	<!-- Bootstrap JS -->
@@ -172,5 +186,54 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Custom JS -->
 	<script type="module" src="/js/main.js"></script>
+	<script th:inline="javascript">
+	    function sortPriceDirect(sortOrder) {
+	        // 1. Tìm container chứa sản phẩm
+	        const container = document.querySelector('.row.justify-content-center');
+	        if (!container) {
+	            console.error("Không tìm thấy vùng chứa sản phẩm!");
+	            return;
+	        }
+
+	        // 2. Lấy tất cả các thẻ bao ngoài sản phẩm
+	        const items = Array.from(container.querySelectorAll('.col-md-4.mb-4'));
+	        
+	        if (items.length === 0) {
+	            alert("Không có sản phẩm nào để sắp xếp!");
+	            return;
+	        }
+
+	        // 3. Tiến hành sắp xếp
+	        items.sort((a, b) => {
+	            const getPrice = (el) => {
+	                const priceText = el.querySelector('.new-price')?.innerText || '';
+	                
+	                // Nếu là hàng sắp về, trả về giá trị rất cao để luôn ở cuối
+	                if (priceText.includes('COMING SOON')) {
+	                    return sortOrder === 'asc' ? Infinity : -Infinity;
+	                }
+
+	                // Xử lý chuỗi tiền: "1.200.000 VND" -> 1200000
+	                const cleanPrice = priceText.replace(/\D/g, ''); 
+	                return parseInt(cleanPrice) || 0;
+	            };
+
+	            const priceA = getPrice(a);
+	            const priceB = getPrice(b);
+
+	            return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+	        });
+
+	        // 4. Xóa cũ, chèn mới vào giao diện
+	        container.innerHTML = '';
+	        items.forEach(item => container.appendChild(item));
+
+	        // 5. Cập nhật nhãn nút bấm
+	        const priceBtn = document.getElementById('priceDropdownButton');
+	        if (priceBtn) {
+	            priceBtn.innerText = sortOrder === 'asc' ? 'Giá: Thấp đến cao' : 'Giá: Cao đến thấp';
+	        }
+	    }
+	</script>
 </body>
 </html>

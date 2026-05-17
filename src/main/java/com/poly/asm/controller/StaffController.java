@@ -1,6 +1,20 @@
 package com.poly.asm.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +27,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.poly.asm.daos.OrderRepository;
 import com.poly.asm.entitys.Order;
 import com.poly.asm.services.OrderService;
+import com.poly.asm.services.PdfService;
+import com.poly.asm.services.ExcelService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/staff")
@@ -23,6 +41,9 @@ public class StaffController {
 	
 	@Autowired
     private OrderService orderService;
+	
+	@Autowired
+	private ExcelService excelService;
 	
     @GetMapping("/index")
     public String index(Model model) {
@@ -80,5 +101,39 @@ public class StaffController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/staff/orders";
+    }
+    @GetMapping("/statistics")
+    public String statistics(Model model) {
+        model.addAttribute("totalRevenue", orderService.getTotalRevenue());
+        model.addAttribute("revenueData", orderService.getRevenueData());
+        return "staff/statistics";
+    }
+    @GetMapping("/statistics/export-all")
+    public ResponseEntity<InputStreamResource> exportAllExcel() throws IOException {
+        List<Object[]> data = orderRepository.getAllTimeProductRevenue();
+        ByteArrayInputStream in = excelService.exportAllTimeRevenue(data);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=tong-hop-doanh-thu.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(new InputStreamResource(in));
+    }
+    
+    @Autowired PdfService pdfService;
+
+    @GetMapping("/orders/print/{id}")
+    //public ResponseEntity<InputStreamResource> printInvoice(@PathVariable("id") Long id) throws IOException
+    public ResponseEntity<InputStreamResource> printInvoice(@PathVariable() Long id) throws IOException {
+     Order order = orderRepository.findById(id).orElse(null);
+     if (order == null) return ResponseEntity.notFound().build();
+
+     ByteArrayInputStream bis = pdfService.exportInvoice(order);
+
+     HttpHeaders headers = new HttpHeaders();
+     headers.add("Content-Disposition", "inline; filename=hoa-don-" + id + ".pdf");
+
+     return ResponseEntity.ok()
+             .headers(headers)
+             .contentType(MediaType.APPLICATION_PDF)
+             .body(new InputStreamResource(bis));
     }
 }

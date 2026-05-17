@@ -95,6 +95,35 @@
             <version>7.7.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+    		<groupId>org.apache.poi</groupId>
+    		<artifactId>poi-ooxml</artifactId>
+    		<version>5.2.3</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+    		<groupId>com.itextpdf</groupId>
+    		<artifactId>kernel</artifactId>
+    		<version>7.2.5</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.itextpdf</groupId>
+    		<artifactId>layout</artifactId>
+    		<version>7.2.5</version>
+		</dependency>
+		<dependency>
+   		 <groupId>com.itextpdf</groupId>
+    		<artifactId>io</artifactId>
+    		<version>7.2.5</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.itextpdf</groupId>
+    		<artifactId>font-asian</artifactId>
+    		<version>7.2.5</version>
+		</dependency>
     </dependencies>
     <build>
         <plugins>
